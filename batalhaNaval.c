@@ -9,7 +9,7 @@
 #define SIZE 10
 #define NUM_NAVIOS 3
 #define TAM_NAVIO 3
-
+//inicia o campo de batalha recebendo um parametro com o SIZE = 10 para o array
 void inicializarCampo(int campo[SIZE][SIZE]) {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
@@ -18,6 +18,7 @@ void inicializarCampo(int campo[SIZE][SIZE]) {
     }
 }
 
+//imprimi o campo de batalha na tela
 void imprimirCampo(int campo[SIZE][SIZE]) {
     printf("\n  ");
     for (int i = 0; i < SIZE; i++) {
@@ -34,8 +35,9 @@ void imprimirCampo(int campo[SIZE][SIZE]) {
     }
 }
 
+// Função para posicionar os navios de forma aleatória no campo de batalha
 void posicionarNavios(int campo[SIZE][SIZE], int posicoes[NUM_NAVIOS][3][2]) {
-    srand(time(NULL));
+    srand(time(NULL)); //inicializa o gerador de numeros aleatorios
 
     for (int n = 0; n < NUM_NAVIOS; n++) {
         int x, y, orientacao, valido;
@@ -46,11 +48,13 @@ void posicionarNavios(int campo[SIZE][SIZE], int posicoes[NUM_NAVIOS][3][2]) {
             y = rand() % SIZE;
             orientacao = rand() % 2; // 0 = horizontal, 1 = vertical
 
+            //verifica se o navio cabe no campo de batalha
             if ((orientacao == 0 && y + TAM_NAVIO > SIZE) || (orientacao == 1 && x + TAM_NAVIO > SIZE)) {
                 valido = 0;
                 continue;
             }
 
+            //verifica se ja tem um navio na posição
             for (int i = 0; i < TAM_NAVIO; i++) {
                 if (orientacao == 0 && campo[x][y + i] != 0) {
                     valido = 0;
@@ -60,8 +64,9 @@ void posicionarNavios(int campo[SIZE][SIZE], int posicoes[NUM_NAVIOS][3][2]) {
                     break;
                 }
             }
-        } while (!valido);
+        } while (!valido); //repete ate achar uma posição valida
 
+        //posicionando os navios no campo
         for (int i = 0; i < TAM_NAVIO; i++) {
             if (orientacao == 0) {
                 campo[x][y + i] = 1;
@@ -79,15 +84,16 @@ void posicionarNavios(int campo[SIZE][SIZE], int posicoes[NUM_NAVIOS][3][2]) {
 int main() {
     //inicia um array com o tamanho do campo de batalha usando a variavel SIZE = 10
     int campo_batalha[SIZE][SIZE];
-    int posicoes[NUM_NAVIOS][3][2];
+    int posicoes[NUM_NAVIOS][3][2]; // Armagenazer a posição dos navios
 
     printf("Batalha Naval\n\n");
     printf("Seja bem-vindo ao jogo!\n");
 
-    inicializarCampo(campo_batalha);
-    posicionarNavios(campo_batalha, posicoes);
-    imprimirCampo(campo_batalha);
+    inicializarCampo(campo_batalha);  // Inicializa o campo de batalha
+    posicionarNavios(campo_batalha, posicoes); // Posiciona os navios de forma aleatória
+    imprimirCampo(campo_batalha); // Imprime o campo de batalha na tela
 
+    // Exibe as posições dos navios
     printf("\n\nNavios:\n");
     for (int n = 0; n < NUM_NAVIOS; n++) {
         printf("%dº navio nas posições: ", n + 1);
